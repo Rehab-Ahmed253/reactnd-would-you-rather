@@ -12,10 +12,7 @@ const App = ({ notLoggedIn, handleInitialData }) => {
 
   return (
     <Router>
-      <div className="container-fluid">
-        <NavBar />
-        <Routes notLoggedIn={notLoggedIn} />
-      </div>
+      <Routes notLoggedIn={notLoggedIn} />
     </Router>
   );
 };

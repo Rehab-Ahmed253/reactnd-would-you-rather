@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import User from "./User";
 import { handleAnswer } from "../store/shared";
+import { Redirect } from "react-router-dom";
 
 const QuestionDetails = ({
   saveQuestionAnswer,
@@ -11,9 +12,12 @@ const QuestionDetails = ({
   total,
   percOne,
   percTwo,
+  bad_id,
 }) => {
   const [selectedOption, setSelectedOption] = useState("");
-
+  if (bad_id === true) {
+    return <Redirect to="/questions/bad_id" />;
+  }
   const radioSelected = (e) => {
     setSelectedOption(e.target.value);
   };
@@ -124,16 +128,25 @@ function financial(x) {
 
 function mapStateToProps({ questions, users, authedUser }, { match }) {
   const answers = users[authedUser].answers;
-  let answer, percOne, percTwo, total;
+  let answer,
+    percOne,
+    percTwo,
+    questionAuthor,
+    total,
+    bad_id = false;
   const { id } = match.params;
   const question = questions[id];
-  if (answers.hasOwnProperty(question.id)) {
-    answer = answers[question.id];
+  if (question === undefined) {
+    bad_id = true;
+  } else {
+    if (answers.hasOwnProperty(question.id)) {
+      answer = answers[question.id];
+    }
+    questionAuthor = users[question.author];
+    total = question.optionOne.votes.length + question.optionTwo.votes.length;
+    percOne = financial((question.optionOne.votes.length / total) * 100);
+    percTwo = financial((question.optionTwo.votes.length / total) * 100);
   }
-  const questionAuthor = users[question.author];
-  total = question.optionOne.votes.length + question.optionTwo.votes.length;
-  percOne = financial((question.optionOne.votes.length / total) * 100);
-  percTwo = financial((question.optionTwo.votes.length / total) * 100);
   return {
     question,
     questionAuthor,
@@ -141,6 +154,7 @@ function mapStateToProps({ questions, users, authedUser }, { match }) {
     total,
     percOne,
     percTwo,
+    bad_id,
   };
 }
 

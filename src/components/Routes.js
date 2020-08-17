@@ -9,24 +9,27 @@ import NewQuestion from "./NewQuestion";
 import QuestionDetails from "./QuestionDetails";
 import NotFound from "./NotFound";
 import Logout from "./Logout";
+import NavBar from "./NavBar";
 
 const Routes = ({ notLoggedIn }) => {
   return (
     <div className="container">
-      <Switch>
-        {notLoggedIn ? (
-          <Route path="/" exact component={Login} />
-        ) : (
-          <Fragment>
+      {notLoggedIn ? (
+        <Route component={Login} />
+      ) : (
+        <Fragment>
+          <NavBar />
+          <Switch>
             <Route path="/" exact component={Dashboard} />
             <Route path="/leaderboard" exact component={LeaderBoard} />
             <Route path="/add" component={NewQuestion} />
+            <Route path="/questions/bad_id" component={NotFound} />
             <Route path="/questions/:id" component={QuestionDetails} />
             <Route exact path="/logout" component={Logout} />
-          </Fragment>
-        )}
-        <Route component={NotFound} />
-      </Switch>
+            <Route component={NotFound} />
+          </Switch>
+        </Fragment>
+      )}
     </div>
   );
 };
