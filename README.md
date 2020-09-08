@@ -6,6 +6,11 @@
 
 Users will be able to answer questions, see which questions they haven’t answered, see how other people have voted, post questions, and see the ranking of users on the leaderboard.
 
+## Firebase URL
+
+https://would-you-rather-7fa76.web.app/
+
+
 ## How to install
 
 Once Node is installed, navigate to the directory where you want to store the app
